@@ -11,7 +11,7 @@ def lire_dictionnaires_mots():
     """
     Lit les dictionnaires de mots et les retourne.
 
-    Raises:
+    Raises:         
         Exception: Si une erreur survient lors de la lecture.
 
     Returns:
