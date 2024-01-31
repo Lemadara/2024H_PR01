@@ -6,47 +6,79 @@ print(" hello ")
 
 #import keyboard
 
-#	A = lire_dictionnaires_mots()
-#	print(A["facile"])
+def printOnwTries(wtries):
 
-"""	
-	print(" test 1")
-	tries=0
-	listE=[]
-	###
 
-	multi=len(elWord)
-	listW=elWord.split()
+	if wtries==0:
 
-	###
-	print(" test 1.1")
+		print("")
+		print("  +---+")
+		print("  |   |")
+		print("      |")
+		print("      |")
+		print("      |")
+		print("      | ")
+		print("=========")
+	elif wtries==1:
 
-	letter=input("give a letter")
-	print(" test 2")
+		print("")
+		print("  +---+")
+		print("  |   |")
+		print("  O   |")
+		print("      |")
+		print("      |")
+		print("      |  ")
+		print("=========")
+	elif wtries ==2:
 
-	if letter not in listE and letter in listW:
-		listE.append(letter)
-		tries+=1
-		print(" test C1")
+		print("")
+		print("  +---+")
+		print("  |   |")
+		print("  O   |")
+		print("  |   |")
+		print("      |")
+		print("      |  ")
+		print("=========")
+	elif wtries ==3:
 
-	if letter in listW:
-		position=listW.index(letter)
-		print(" test C2")
+		print("")
+		print("  +---+")
+		print("  |   |")
+		print("  O   |")
+		print(" /|   |")
+		print("      |")
+		print("      |  ")
+		print("=========")
+	elif wtries ==4:
 
-	else:
-		print("error try again with a real letter")
-		print(" test c3")
+		print("")
+		print("  +---+")
+		print("  |   |")
+		print("  O   |")
+		print(" /|\\  |")
+		print("      |")
+		print("      |  ")
+		print("=========")
+	elif wtries ==5:
 
-	while True:
-		print(f"mots:"+"_"*multi)
-		print(f"lettre trouvé:"+listW[position])
-		print(f"")
-		print(f"")
-		print(f"")
-		print(f"")
-		print(f"")
+		print("")
+		print("  +---+")
+		print("  |   |")
+		print("  O   |")
+		print(" /|\\  |")
+		print(" /    |")
+		print("      |  ")
+		print("=========")
+	elif wtries ==6:
 
-	"""
+		print("")
+		print("  +---+")
+		print("  |   |")
+		print("  O   |")
+		print(" /|\\  |")
+		print(" / \\  |")
+		print("      |  ")
+		print("=========")
 
 def game(elWord):
 	
@@ -61,10 +93,7 @@ def game(elWord):
 	letterRecord=[]
 
 	tries=0
-
-	h='O'
-	b='|'
-	l,r='/',"\\"
+	wtries=0
 
 
 	#where the while begins
@@ -80,84 +109,14 @@ def game(elWord):
 			else:
 				print("_",end=" ")
 
-
-		if tries==0:
-
-			print("")
-			print("  +---+")
-			print("  |   |")
-			print(f"  {' '}   |")
-			print(f" {' '}{' '}{' '}  |")
-			print(f" {' '} {' '}  |")
-			print("         ")
-			print("=========")
-		elif tries==1:
-
-			print("")
-			print("  +---+")
-			print("  |   |")
-			print(f"  {'O'}   |")
-			print(f" {' '}{' '}{' '}  |")
-			print(f" {' '} {' '}  |")
-			print("         ")
-			print("=========")
-		elif tries ==2:
-
-			print("")
-			print("  +---+")
-			print("  |   |")
-			print(f"  {'O'}   |")
-			print(f" {' '}{'|'}{' '}  |")
-			print(f" {' '} {' '}  |")
-			print("         ")
-			print("=========")
-		elif tries ==3:
-
-			print("")
-			print("  +---+")
-			print("  |   |")
-			print(f"  {'O'}   |")
-			print(f" {'/'}{'|'}{' '}  |")
-			print(f" {' '} {' '}  |")
-			print("         ")
-			print("=========")
-		elif tries ==4:
-
-			print("")
-			print("  +---+")
-			print("  |   |")
-			print(f"  {'O'}   |")
-			print(f" {'/'}{'|'}{'\\'}  |")
-			print(f" {' '} {' '}  |")
-			print("         ")
-			print("=========")
-		elif tries ==5:
-
-			print("")
-			print("  +---+")
-			print("  |   |")
-			print(f"  {'O'}   |")
-			print(f" {'/'}{'|'}{'\\'}  |")
-			print(f" {'/'} {' '}  |")
-			print("         ")
-			print("=========")
-		elif tries ==6:
-
-			print("")
-			print("  +---+")
-			print("  |   |")
-			print(f"  {'O'}   |")
-			print(f" {'/'}{'|'}{'\\'}  |")
-			print(f" {'/'} {'\\'}  |")
-			print("         ")
-			print("=========")
-
-
-
+		printOnwTries(wtries)
 
 		print("try to guess a letter of the word :")
 
 		letter=input(" : ")
+		if letter not in positionned:
+			wtries+=1
+
 		tries+=1
 
 
@@ -180,20 +139,23 @@ def game(elWord):
 
 		if len(letterFound)==len(positionned):
 			return("won")
-		elif tries==6:
+		elif wtries==6:
 			return("lost")
 			
 
 	### test before implanting
 
-	
-	return 0
+#	return 0
 
-
+#	start time, start game
 start_time = time.time()
 
 result=game("chaleté")
+
 print("\nResult : ",result)
+
 end_time = time.time()
+
 time = end_time-start_time
 print("\n",time)
+
