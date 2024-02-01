@@ -81,8 +81,8 @@ def printOnwTries(wtries):
 		print("=========")
 
 def game(elWord):
-	
 	###	Game starts
+	# initial datas
 	position={}	
 	positionned=[]
 	for x in elWord:
@@ -120,32 +120,30 @@ def game(elWord):
 		tries+=1
 
 
-
-
 		for i in range(len(elWord)):
 			if letter == elWord[i]:
 				position[letter].append(i)
 
 		print(position)# to retract # admin stuff
-
-		if letter in elWord and letter not in letterRecord:
+			
+			# detect when a new letter is entered
+		if letter in elWord and letter not in letterRecord:	
 
 			letterFound.append(letter)
 			letterRecord.append(letter)
 
-		elif letter not in letterRecord and letter not in elWord:
+		elif letter not in letterRecord and letter not in elWord:	# record entered characters
 
 			letterRecord.append(letter)
 
-		if len(letterFound)==len(positionned):
+		if len(letterFound)==len(positionned):	# when we win or loose # when game ends
 			return("won")
 		elif wtries==6:
 			return("lost")
-			
-
-	### test before implanting
-
 #	return 0
+
+
+
 
 #	start time, start game
 start_time = time.time()
