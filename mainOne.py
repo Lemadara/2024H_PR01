@@ -42,9 +42,9 @@ def gameword(diff):
 			while True:
 				clear_console()
 				print("Choisir une difficulté:\n1. Facile\n2. Intermédiaire\n3. Difficile\n")
-				print("Erreur, entrée invalide, entrer un nombre de 1 à 3 de la selection :")
+				print("Erreur, entrée invalide, entrer un nombre de 1 à 3 de la selection de difficulté :",end='')
 
-				diff=input(" : ")
+				diff=input(" ")
 				if diff in ['1','2','3']:
 					break
 				else:
@@ -130,25 +130,24 @@ def printOnwTries(wtries):
 
 def gameHeaderInfo(elWord,letterFound,wtries,letterRecord):
 	clear_console()
-	print("admin info : word = ",elWord) # to retract # admin stuff
+	###print("admin info : word = ",elWord) # to retract # admin stuff
 
 	#word visual - found letters and progression on finding the word
-	print("word : ",end="")
+	print("mot : ",end="")
 
 	for x in elWord:
 		if x in letterFound:
 			print(x,end=" ")
 		else:
 			print("_",end=" ")
-	print("\nletter Found: ",end='')
+	print("\nlettres trouvées : ",end='')
 	for c in letterFound:
 		print(c,end=" ")
 	print('')
-	print('letter Mistakes: ',end='')
+	print('lettres ratées: ',end='')
 	for z in letterRecord:
 		if z not in elWord:
 			print(z,end=' ')
-
 
 	# Le bonhomme pendu drawings progressing on numbers of wtries/number of wrong letters entered
 	printOnwTries(wtries)
@@ -186,12 +185,11 @@ def game(elWord):
 
 		if letterAlreadyEntered:
 			if letter in letterRecord:
-				print("letter already entered, try again : ",end='')
-		#		print('\n',len(letterFound),len(positionned))
+				print("lettre deja entrée, réessayer: ",end='')
+			#	print('\n',len(letterFound),len(positionned))
 		elif not letterAlreadyEntered:
-			print("try to guess a letter of the word : ",end='')
+			print("essayer de deviner une lettre du mot: ",end='')
 		#	print('\n',len(letterFound),len(positionned))
-
 
 		letter=input("")
 
@@ -245,7 +243,7 @@ def welcome():
 
 		elif len(userName)<3:
 			clear_console()
-			print('error: less than 3 letters\n')
+			print('Erreur: moin de 3 lettres\n')
 			l=1
 
 		for x in userName:
@@ -253,36 +251,43 @@ def welcome():
 				...
 			else:
 				print("char:",x)
-				print(f"error : uncorrect {x} not a letter")
+				print(f"erreur : charactere '{x}' n'est pas une lettre")
 				l=1
 
 		if l==0:
 			return userName
 		
-		print("\nplease try again with only letters and at least 3 letters\n")
+		print("\nVeuillez réessayer avec uniquement des lettres et au moins 3 lettres\n")
 
 ### code start program ########################################################################################################################################
 
 # welcome and userName returned
 userName=welcome()
-print("your userName is : "+userName)	
+print("votre nom d'utilisateur est: "+userName)	
 input("..enter..")
 
 # menu first apparition
-clear_console()
-menuNchoise()
-choiseM=input()
 
-k=1 # value to control when we go to menu level 1
+
+#errorr=False # value to control when we go to menu level 1
 
 # main events navigation
+k=1
 while True:
-	if k==0:
+	while True:
 		clear_console()
-		menuNchoise()
-		choiseM=input("Make a choice : ")
+		menuNchoise()		
+		choiseM=input("Choisi : ")
+		
+		while choiseM not in ['1','2','3']:
+			clear_console()
+			menuNchoise()	
+			print("Erreur; entrer que un chiffre, 1, 2 ou 3 pour naviguer dans le menu")
+			choiseM=input("Choisi : ")
+		break
 
 	if choiseM=='1':
+		p=' '
 		clear_console()
 		choiDiff=diffMenu()
 
@@ -312,44 +317,51 @@ while True:
 		#time.sleep(1)
 
 		while True:
-			p=input()
-			if p =='':
-				break
+			keyboard.wait('enter')
+			break
+		k=0
 
 		enregistrer_partie(userName,elWord,result[0],int(fTime))
+		#errorr=False
 
-		k=0
+
 		
 	elif choiseM=='2':
+		prr=' '
 
 		# historic looking later
 		clear_console()
 		liste_historic=lire_historique_utilisateur(userName)
 		#print(liste_historic)
-		print("Historique des parties de '{userName}':\n")
+		print(f"Historique des parties de '{userName}':\n")
 		for x in liste_historic:
 			resultHistoric= 'victoire' if x['resultat'] else 'defaite'
 			print(f'date et heure : {x['timestamp']}; mot : {x['mot']}; resultat : {resultHistoric}; temps : {x['duree']} secondes\n')
 
-		print("press any keys to go back")
-		input('...press a key...')
+		print("Appuyez Enter pour retourner")
+		print('...Enter...',end='')
+		while True:
+			keyboard.wait('enter')
+			break
+		#errorr=False
+		input('error false waiter')
 
 		k=0
-		
+
 	elif choiseM=='3':
 		clear_console()
 		##quit program##
 		print(f"merci d'avoir entrer le programme '{userName}', à une prochaine fois!")
 		
 		break
-
-	else:
-		while choiseM not in ['1','2','3']:
-			clear_console()
-			menuNchoise()
-			print("error wrong number or a character or special character is entered")
-			choiseM=input("please try again : ")
-			k=1
+	
+	"""else:
+					while choiseM not in ['1','2','3']:
+						clear_console()
+						menuNchoise()
+						print("error wrong number or a character or special character is entered")
+						choiseM=input("please try again : ")
+						k=1"""
 
 
 # program ended
