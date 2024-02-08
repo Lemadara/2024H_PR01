@@ -18,7 +18,7 @@ def lire_dictionnaires_mots():
         dict: Dictionnaire contenant les mots par difficulté.
     """
     try:
-        with open(CHEMIN_MOTS, "r") as file:
+        with open(CHEMIN_MOTS, "r", encoding='utf-8') as file:
             return json.load(file)
     except Exception as e:
         print("Erreur lors de la lecture des dictionnaires de mots.")
