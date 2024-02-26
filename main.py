@@ -1,11 +1,5 @@
 
 
-from util import lire_historique_utilisateur, enregistrer_partie, lire_dictionnaires_mots
-import os
-import random
-import time
-import string
-import keyboard
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -223,7 +217,7 @@ def Game(word,userName):
                 letterEnt=input("Entrer une lettre : ")              
 
 
-        if countedGoodTries==len(word):
+        if countedGoodTries>=len(word):
             end_time = time.time()
             timed=end_time - start_time
 
@@ -297,6 +291,7 @@ def mainProcess():
             ...
         else:
             # Afficher un message d'entrée invalide.
+            print("Entrée invalide")
             ...
 clear_console()
 

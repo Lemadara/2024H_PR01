@@ -1,1 +1,1 @@
-{}
+{"bad": [{"timestamp": "2024-02-13 10:44", "mot": "soleil", "resultat": false, "duree": 34}, {"timestamp": "2024-02-13 10:47", "mot": "cour", "resultat": false, "duree": 15}, {"timestamp": "2024-02-13 10:48", "mot": "lac", "resultat": true, "duree": 22}], "asd": [{"timestamp": "2024-02-13 10:49", "mot": "lait", "resultat": true, "duree": 26}, {"timestamp": "2024-02-13 10:51", "mot": "pont", "resultat": true, "duree": 54}]}
