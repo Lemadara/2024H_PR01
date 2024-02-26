@@ -35,31 +35,8 @@ def WelcomeUsername():
             userName = input("Nom d'utilisateur : ")
     return userName
 
-def gameinfo(word,letterFound,cbadtries,letterRecord):
-    clear_console()
-    # word letter évolution
-    print("mot : ",end="")
-    for x in word:
-        if x in letterFound:
-            print(x,end=" ")
-        else:
-            print("_",end=" ")
 
-    # word letter found
-    print("\nlettres trouvées : ",end='')
-    for c in letterFound:
-        print(c,end=" ")
-    print('')
-
-    # word letter mistakes
-    print('lettres ratées: ',end='')
-    for z in letterRecord:
-        if z not in word:
-            print(z,end=' ')
-
-    # Le bonhomme pendu drawings progressing on numbers of cbadtries/number of wrong letters entered
-    printBonhomme(cbadtries)
-    pass
+    
 
 def printBonhomme(badtries):
     if badtries==0:
@@ -184,20 +161,50 @@ def wordGenerator(choixDiff):
         
     return choosenWord
     
+def gameinfo(word,letterFound,cbadtries,letterRecord):
+    clear_console()
+    # word letter évolution
+    print("mot : ",end="")
+    for x in word:
+        if x in letterFound:
+            print(x,end=" ")
+        else:
+            print("_",end=" ")
 
+    # word letter found
+    print("\nlettres trouvées : ",end='')
+    for c in letterFound:
+        print(c,end=" ")
+    print('')
+
+    # word letter mistakes
+    print('lettres ratées: ',end='')
+    for z in letterRecord:
+        if z not in word:
+            print(z,end=' ')
+
+    # Le bonhomme pendu drawings progressing on numbers of cbadtries/number of wrong letters entered
+    printBonhomme(cbadtries)
 
 def game():
     choixDiff=menuChoixDiff()
     wordGenerated = wordGenerator(choixDiff)
+    word = wordGenerated
     ########################## intialize
     letterFound, letterRecord, positionnedLetter =[], [], [] # "positionnedLetter" variable is juste les lettres dans le mots
     for x in word: positionnedLetter.append(x)
     BadTries, GoodTries = 0, 0
     #party
     start_time = time.time()
-    
+    while True:
+        gameinfo(word, letterFound,BadTries,letterRecord)
+        R=input()
+        if R == '0':
+            break
 
-    resultat = [start_time]]
+
+    end_time = time.time()
+    resultat = [start_time-end_time,word]
 
     pass
     return resultat
@@ -209,7 +216,7 @@ def mainProcess():
         if choixM == '1':
 
             resultGame = game()
-            print(resultGame+'.')
+            print(str(resultGame[0])+resultGame[1]+'.')
 
             keyboard.wait('enter')
             trash = input()
