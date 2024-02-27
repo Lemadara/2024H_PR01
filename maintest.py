@@ -186,28 +186,62 @@ def gameinfo(word,letterFound,cbadtries,letterRecord):
     # Le bonhomme pendu drawings progressing on numbers of cbadtries/number of wrong letters entered
     printBonhomme(cbadtries)
 
-def game():
+def game(userName):
     choixDiff=menuChoixDiff()
     wordGenerated = wordGenerator(choixDiff)
     word = wordGenerated
     ########################## intialize
     letterFound, letterRecord, positionnedLetter =[], [], [] # "positionnedLetter" variable is juste les lettres dans le mots
     for x in word: positionnedLetter.append(x)
-    BadTries, GoodTries = 0, 0
+    BadTries  = 0
+    """,GoodTries""" """, 0"""
     #party
     start_time = time.time()
     while True:
         gameinfo(word, letterFound,BadTries,letterRecord)
-        R=input()
-        if R == '0':
+        #R=input()
+        #if R == '0':
+        #    break
+        letterEntered = input().lower()
+        while not letterEntered.isalpha() or len(letterEntered)>1:
+            gameinfo(word, letterFound, BadTries, letterRecord)
+            print(f"Erreur: {letterEntered} n'est pas une lettre ou n'est pas individuel ou rien est entré; Entrer que une seul lettre")
+            letterEntered=input("Entrer une lettre : ").lower()
+
+        #while?        
+        if letterEntered in letterRecord:
+            gameinfo(word, letterFound, BadTries, letterRecord)
+            print(f"Erreur: {letterEntered} a deja été entré; Entrer une autre lettre individuel")
+            letterEntered=input("Entrer une lettre : ")
+        elif letterEntered not in letterRecord:
+                letterRecord.append(letterEntered)
+                if letterEntered in positionnedLetter:
+                    letterFound.append(letterEntered)
+                    print("letter found :",letterFound)
+                    #countedGoodTries+=1
+                else:
+                    BadTries+=1
+                    print("bad tries :",BadTries)
+                #break
+        
+        if len(letterFound) >= len(word):
+            end_time = time.time()
+            clear_console()
+            gameinfo(word, letterFound, BadTries, letterRecord)
+            victoire = True
+            print(f"Victoire : Félicitations '{userName}'! Vous avez deviné le mot '{word}' en {int(end_time-start_time)} secondes et {BadTries} tentatives échouées.")
             break
-
-
-    end_time = time.time()
-    resultat = [start_time-end_time,word]
-
-    pass
+        elif BadTries ==7:
+            end_time = time.time()
+            clear_console()
+            print(f"Défaite : Dommage ! Le mot était {word}")
+            victoire = False
+            break
+    timed = end_time - start_time
+    resultat = [victoire,BadTries,timed,word]
     return resultat
+
+    
 
 def mainProcess():
     userName = WelcomeUsername()
@@ -215,8 +249,10 @@ def mainProcess():
         choixM = choixMenu()
         if choixM == '1':
 
-            resultGame = game()
-            print(str(resultGame[0])+resultGame[1]+'.')
+            resultGame = game(userName)
+            print(type(userName),type(resultGame[3]),type(resultGame[0]),type(resultGame[2]))
+            enregistrer_partie(userName,str(resultGame[3]),resultGame[0],int(resultGame[2]))
+            #print(str(resultGame[0])+str(resultGame[1])+str(resultGame[2])+'.')
 
             keyboard.wait('enter')
             trash = input()
@@ -224,13 +260,13 @@ def mainProcess():
             clear_console()
 
 
-            #enregistrer_partie(userName,generatedWord,resultGame[0],int(resultGame[2]))
+            
             continue
             # The following variables are placeholders and need to be defined or implemented accordingly
             # choixDiff = ...
             # generatedWord = ...
             # resultOfGame = ...
-            enregistrer_partie()
+            #enregistrer_partie()
         elif choixM == '2':
             lectureHistorique(userName)
             continue
