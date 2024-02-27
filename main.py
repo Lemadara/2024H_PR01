@@ -1,85 +1,166 @@
-
-
+from util import lire_historique_utilisateur, enregistrer_partie, lire_dictionnaires_mots
+import os, random, time, string, keyboard
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-# Squelette du menu principal :
-# Ce code peut être un bon point de départ.
-# Il est possible de le modifier à votre guise ou de l'enlever complètement pour partir de zéro.
-
 def WelcomeUsername():
     clear_console()
-
-    print("Bien le venue chere joueur!\n")
-    userName = input("donner votre nom d'utilisateur : ")
+    print("Bien la venue dans cet univers virtuel merveilleuse\n")
+    userName = input("selectionner votre nom d'utilisateur : ")
     while True:
         clear_console()
-        v=0
-        if len(userName)<3:
-            v=1
+        L = False
+        k = False
+        if len(userName) < 3:
+            L = True
             print('Erreur!')
             print("nom d'utilisateur trop court. Il doit etre de au moin 3 lettre")
-            k=0
+            k = False
             for x in userName:
-                if not (x in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z','É','È'] or x in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z','é','è']):
+                if not x.isalpha():
                     print(f"'{x}' n'est pas une lettre, le nim d'utilisateur ne doit avoir que des lettres")
-                    k=1
-
+                    k = True
         else:
-            k=0
+            k = False
             for x in userName:
-                if not (x in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z','É','È'] or x in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z','é','è']):
+                if not x.isalpha():
                     print(f"'{x}'n'est pas une lettre, le nom d'utilisateur ne doit avoir que des lettres")
-                    k=1
-        if v==0 and k==0:
+                    k = True
+        if L == False and k == False:
+            clear_console()
+            print(f"votre nom d'utilisateur est {userName}")
             break
         else:
-            userName=input("Nom d'utilisateur : ")
-
+            userName = input("Nom d'utilisateur : ")
     return userName
 
-def mainMenuChoise():
-    clear_console()
-    print("Menu principal:\n","1. Commencer une partie\n","2. Afficher l'historique \n","3. Quitter\n")
-    print("choix : ",end="")
-    choixMenuMain=input('')
 
-    while choixMenuMain not in ["1","2","3"]:
+    
+
+def printBonhomme(badtries):
+    if badtries==0:
+        print("")
+        print("  +---+")
+        print("  |   |")
+        print("      |")
+        print("      |")
+        print("      |")
+        print("      | ")
+        print("=========")
+
+    elif badtries==1:
+        print("")
+        print("  +---+")
+        print("  |   |")
+        print("  O   |")
+        print("      |")
+        print("      |")
+        print("      |  ")
+        print("=========")
+
+    elif badtries ==2:
+        print("")
+        print("  +---+")
+        print("  |   |")
+        print("  O   |")
+        print("  |   |")
+        print("      |")
+        print("      |  ")
+        print("=========")
+
+    elif badtries ==3:
+        print("")
+        print("  +---+")
+        print("  |   |")
+        print("  O   |")
+        print(" /|   |")
+        print("      |")
+        print("      |  ")
+        print("=========")
+
+    elif badtries ==4:
+        print("")
+        print("  +---+")
+        print("  |   |")
+        print("  O   |")
+        print(" /|\\  |")
+        print("      |")
+        print("      |  ")
+        print("=========")
+
+    elif badtries ==5:
+        print("")
+        print("  +---+")
+        print("  |   |")
+        print("  O   |")
+        print(" /|\\  |")
+        print(" /    |")
+        print("      |  ")
+        print("=========")
+
+    elif badtries ==6:
+        print("")
+        print("  +---+")
+        print("  |   |")
+        print("  O   |")
+        print(" /|\\  |")
+        print(" / \\  |")
+        print("      |  ")
+        print("=========")
+
+def choixMenu():
+    print("Menu principal:\n", "1. Commencer une partie\n", "2. Afficher l'historique \n", "3. Quitter\n")
+    print("choix : ", end="")
+    choixM = input('')
+    while choixM not in ["1", "2", "3"]:
         clear_console()
-        print("Menu principal:\n","1. Commencer une partie\n","2. Afficher l'historique \n","3. Quitter\n")
+        print("Menu principal:\n", "1. Commencer une partie\n", "2. Afficher l'historique \n", "3. Quitter\n")
         print("Erreur : réponse doit etre, un nombre entier de 1 à 3, comme dans le menu")
-        choixMenuMain=input('choix : ')        
-
-    return choixMenuMain
-
-def ChoixDiffMenu():
+        choixM = input('choix : ')
+        clear_console()
     clear_console()
-    choixDeDiff=input("Choisir une difficulté:\n1. Facile\n2. Intermédiaire\n3. Difficile\n")
-    while choixDeDiff not in ["1","2","3"]:
+    return choixM
+#----------------
+def lectureHistorique(username):
+    liste_historic=lire_historique_utilisateur(username)
+    #print(liste_historic)
+    print(f"Historique des parties de '{username}':\n")
+    for x in liste_historic:
+        resultHistoric= 'victoire' if x['resultat'] else 'defaite'
+        print(f'date et heure : {x['timestamp']}; mot : {x['mot']}; resultat : {resultHistoric}; temps : {x['duree']} secondes\n')
+    keyboard.wait('enter')
+    trash = input()
+    print(trash)
+    clear_console()
+
+def menuChoixDiff():
+    clear_console()
+    choixD=input("Choisir une difficulté:\n1. Facile\n2. Intermédiaire\n3. Difficile\n")
+    while choixD not in ["1","2","3"]:
         clear_console()
         print(("Choisir une difficulté:\n1. Facile\n2. Intermédiaire\n3. Difficile\n"))
         print("Erreur : réponse doit etre, un nombre entier de 1 à 3, comme dans le menu")
-        choixDeDiff=input("Entrer le nom de nouveau: ")
-    return choixDeDiff
+        choixD=input("Entrer le nom de nouveau: ")
+    return choixD
 
-def WordGenerator(choixDeDiff):
+def wordGenerator(choixDiff):
     dic= lire_dictionnaires_mots()
 
-    if choixDeDiff=="1":
+    if choixDiff=="1":
             motList=dic["facile"]
-            wordChoosen=random.choice(motList)
+            choosenWord=random.choice(motList)
 
-    elif choixDeDiff=="2":
+    elif choixDiff=="2":
             motList=dic["intermediaire"]
-            wordChoosen=random.choice(motList)
+            choosenWord=random.choice(motList)
 
-    elif choixDeDiff=="3":
+    elif choixDiff=="3":
             motList=dic["difficile"]
-            wordChoosen=random.choice(motList)
+            choosenWord=random.choice(motList)
         
-    return wordChoosen
-
+    return choosenWord
+    
 def gameinfo(word,letterFound,cbadtries,letterRecord):
     clear_console()
     # word letter évolution
@@ -103,173 +184,105 @@ def gameinfo(word,letterFound,cbadtries,letterRecord):
             print(z,end=' ')
 
     # Le bonhomme pendu drawings progressing on numbers of cbadtries/number of wrong letters entered
-    printBonhommeEvoluant(cbadtries)
-    pass
+    printBonhomme(cbadtries)
 
-def printBonhommeEvoluant(cbadtries):
-    if cbadtries==0:
-        print("")
-        print("  +---+")
-        print("  |   |")
-        print("      |")
-        print("      |")
-        print("      |")
-        print("      | ")
-        print("=========")
-
-    elif cbadtries==1:
-        print("")
-        print("  +---+")
-        print("  |   |")
-        print("  O   |")
-        print("      |")
-        print("      |")
-        print("      |  ")
-        print("=========")
-
-    elif cbadtries ==2:
-        print("")
-        print("  +---+")
-        print("  |   |")
-        print("  O   |")
-        print("  |   |")
-        print("      |")
-        print("      |  ")
-        print("=========")
-
-    elif cbadtries ==3:
-        print("")
-        print("  +---+")
-        print("  |   |")
-        print("  O   |")
-        print(" /|   |")
-        print("      |")
-        print("      |  ")
-        print("=========")
-
-    elif cbadtries ==4:
-        print("")
-        print("  +---+")
-        print("  |   |")
-        print("  O   |")
-        print(" /|\\  |")
-        print("      |")
-        print("      |  ")
-        print("=========")
-
-    elif cbadtries ==5:
-        print("")
-        print("  +---+")
-        print("  |   |")
-        print("  O   |")
-        print(" /|\\  |")
-        print(" /    |")
-        print("      |  ")
-        print("=========")
-
-    elif cbadtries ==6:
-        print("")
-        print("  +---+")
-        print("  |   |")
-        print("  O   |")
-        print(" /|\\  |")
-        print(" / \\  |")
-        print("      |  ")
-        print("=========")
-
-def Game(word,userName):
-
-
-    #initialisation
+def game(userName):
+    choixDiff=menuChoixDiff()
+    wordGenerated = wordGenerator(choixDiff)
+    word = wordGenerated
+    ########################## intialize
     letterFound, letterRecord, positionnedLetter =[], [], [] # "positionnedLetter" variable is juste les lettres dans le mots
     for x in word: positionnedLetter.append(x)
-    countedBadTries, countedGoodTries = 0, 0
-
+    BadTries  = 0
+    """,GoodTries""" """, 0"""
     #party
     start_time = time.time()
     while True:
+        gameinfo(word, letterFound,BadTries,letterRecord)
+        #R=input()
+        #if R == '0':
+        #    break
+        letterEntered = input().lower()
+        while not letterEntered.isalpha() or len(letterEntered)>1:
+            gameinfo(word, letterFound, BadTries, letterRecord)
+            print(f"Erreur: {letterEntered} n'est pas une lettre ou n'est pas individuel ou rien est entré; Entrer que une seul lettre")
+            letterEntered=input("Entrer une lettre : ").lower()
 
-        gameinfo(word, letterFound, countedBadTries, letterRecord)
-        letterEnt=input("Entrer une lettre : ")
-        while True:
-            clear_console()
-
-            if letterEnt not in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'é', 'è', 'È','É']:
-                gameinfo(word, letterFound, countedBadTries, letterRecord)
-                print(f"Erreur: {letterEnt} n'est pas une lettre; Entrer que une seul lettre")
-                letterEnt=input("Entrer une lettre : ")
-            elif letterEnt in letterRecord:
-                gameinfo(word, letterFound, countedBadTries, letterRecord)
-                print(f"Erreur: {letterEnt} a deja été entré; Entrer une autre lettre individuel")
-                letterEnt=input("Entrer une lettre : ")
-            elif letterEnt not in letterRecord:
-                letterRecord.append(letterEnt)
-                if letterEnt in positionnedLetter:
-                    letterFound.append(letterEnt)
-
-                    countedGoodTries+=1
+        #while?        
+        if letterEntered in letterRecord:
+            gameinfo(word, letterFound, BadTries, letterRecord)
+            print(f"Erreur: {letterEntered} a deja été entré; Entrer une autre lettre individuel")
+            letterEntered=input("Entrer une lettre : ")
+        elif letterEntered not in letterRecord:
+                letterRecord.append(letterEntered)
+                if letterEntered in positionnedLetter:
+                    letterFound.append(letterEntered)
+                    print("letter found :",letterFound)
+                    #countedGoodTries+=1
                 else:
-                    countedBadTries+=1
-                break
-            else:
-                gameinfo(word, letterFound, countedBadTries, letterRecord)
-                print(f"Erreur!? : La lettre {letterEnt} a deja été entrée, réessayer!")
-                letterEnt=input("Entrer une lettre : ")              
-
-
-        if countedGoodTries>=len(word):
+                    BadTries+=1
+                    print("bad tries :",BadTries)
+                #break
+        
+        if len(letterFound) >= len(word):
             end_time = time.time()
-            timed=end_time - start_time
-
             clear_console()
-            gameinfo(word, letterFound, countedBadTries, letterRecord)
-            print(f"Victoire : Félicitations '{userName}'! Vous avez deviné le mot '{word}' en {int(timed)} secondes et {countedBadTries} tentatives échouées.")
-
-            result=[True,countedBadTries,timed]
-            return result
-        elif countedBadTries==7:
+            gameinfo(word, letterFound, BadTries, letterRecord)
+            victoire = True
+            print(f"Victoire : Félicitations '{userName}'! Vous avez deviné le mot '{word}' en {int(end_time-start_time)} secondes et {BadTries} tentatives échouées.")
+            break
+        elif BadTries ==7:
             end_time = time.time()
-            timed=end_time - start_time
-            #gameinfo(word, letterFound, countedBadTries, letterRecord)
-
             clear_console()
             print(f"Défaite : Dommage ! Le mot était {word}")
+            victoire = False
+            break
+    timed = end_time - start_time
+    resultat = [victoire,BadTries,timed,word]
+    return resultat
 
-            result=[False,countedBadTries,timed]
-            return result
-        pass
-    pass
-
+    
 
 def mainProcess():
-    userName=WelcomeUsername()
-    print(f"Bienvenue {userName}!")
-    time.sleep(2)
-
+    userName = WelcomeUsername()
     while True:
+        choixM = choixMenu()
+        if choixM == '1':
 
-        choix_menu_principal = mainMenuChoise()
+            resultGame = game(userName)
+            print(type(userName),type(resultGame[3]),type(resultGame[0]),type(resultGame[2]))
+            enregistrer_partie(userName,str(resultGame[3]),resultGame[0],int(resultGame[2]))
+            #print(str(resultGame[0])+str(resultGame[1])+str(resultGame[2])+'.')
 
-        if choix_menu_principal == "1":
-            # Demander à l'utilisateur de choisir une difficulté,
-            choixDeDiff=ChoixDiffMenu()
-            # sélectionner un mot aléatoire
-            generatedWord=WordGenerator(choixDeDiff)
-            # et commencer la partie.
-            resultGame=Game(generatedWord,userName)
-
-            enregistrer_partie(userName,generatedWord,resultGame[0],int(resultGame[2]))
-
-            input("ENTRER pour retourner au menu principal")
-            
-            """print("Appuyer ENTRER pour quitter")
-                                                keyboard.wait('enter')"""
-            
-            ...
-        elif choix_menu_principal == "2":
-            # Afficher l'historique de l'utilisateur.
-
+            keyboard.wait('enter')
+            trash = input()
+            print(trash)
             clear_console()
+
+
+            
+            continue
+            # The following variables are placeholders and need to be defined or implemented accordingly
+            # choixDiff = ...
+            # generatedWord = ...
+            # resultOfGame = ...
+            #enregistrer_partie()
+        elif choixM == '2':
+            lectureHistorique(userName)
+            continue
+            # The following function call is a placeholder and needs to be defined or implemented accordingly
+            # lectureDeLhistorique(userName)
+            
+            # The commented block below is an example of how to use keyboard events, adjust as needed
+            """
+            while True:
+                if keyboard.is_pressed('enter'):
+                    print('You pressed the "a" key!')
+                    trash = input()
+                    break
+            """
+            """
+
             liste_historic=lire_historique_utilisateur(userName)
             #print(liste_historic)
             print(f"Historique des parties de '{userName}':\n")
@@ -277,24 +290,31 @@ def mainProcess():
                 resultHistoric= 'victoire' if x['resultat'] else 'defaite'
                 print(f'date et heure : {x['timestamp']}; mot : {x['mot']}; resultat : {resultHistoric}; temps : {x['duree']} secondes\n')
             
-            """print("Appuyer ENTRER pour quitter")
-                                                keyboard.wait('enter')
-                                                print(' ')"""
-            input("ENTRER pour retourner au menu principal")
-
-        elif choix_menu_principal == "3":
-            # Quitter le programme.
-            clear_console()
-
-            print(f"Hors le voir chere {userName}")
+            """
+        elif choixM == '3':
+            print(3)
             break
-            ...
-        else:
-            # Afficher un message d'entrée invalide.
-            print("Entrée invalide")
-            ...
-clear_console()
 
+# The code below appears to be commented out and includes placeholder or incomplete code.
+# It's included as part of the script but will not execute unless uncommented and properly implemented.
+"""
+print(f"ended, username is {username}")
+
+def entered_key():
+    pass
+
+while True:
+    if keyboard.is_pressed():
+        print('You pressed the "a" key!')
+        trash = input()
+        break
+print("you went out")
+
+a= input("1:")
+b= input("2:")
+print("a is :",a,"b is :",b)
+"""
 mainProcess()
+clear_console()
 
 
